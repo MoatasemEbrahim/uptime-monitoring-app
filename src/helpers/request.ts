@@ -11,12 +11,12 @@ const requestHelper = (req:IncomingMessage) =>{
 
     const queryStringObj = parsedURL.query;
 
-    const method :string = req?.method?.toUpperCase() || '';
+    const method = req?.method?.toUpperCase() || '';
 
     const headers = req.headers;
 
     return {
-        parsedURL,path,trimmedPath,queryStringObj,method,headers
+        trimmedPath,queryStringObj,method,headers
     }
 }
 
