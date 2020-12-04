@@ -16,7 +16,7 @@ const requestHelper = (req:IncomingMessage) =>{
     const headers = req.headers;
 
     return {
-        parsedURL,path,trimmedPath,queryStringObj,method,headers
+        trimmedPath,queryStringObj,method,headers
     }
 }
 

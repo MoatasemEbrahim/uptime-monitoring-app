@@ -1,9 +1,10 @@
 import fs from 'fs';
 import path from 'path';
+import {parseStringToObject} from '../helpers/string'
 
 const baseDir = path.join(__dirname,'/../.data')
 
-const create = (dir:string,file:string,data:string,callback:(msg:string|boolean)=>void)=>{
+const create = (dir:string,file:string,data:Record<string, any>,callback:(msg:string|boolean)=>void)=>{
     fs.open(`${baseDir}/${dir}/${file}.json`,'wx',(err,fileDescriptor)=>{
         if(!err && fileDescriptor){
             const stringData = JSON.stringify(data);
@@ -27,20 +28,19 @@ const create = (dir:string,file:string,data:string,callback:(msg:string|boolean)
     })
 }
 
-const read = (dir:string,file:string,callback:(err:NodeJS.ErrnoException | null,data:string)=>void)=>{
+const read = (dir:string,file:string,callback:(err:NodeJS.ErrnoException | null,data:Record<string,any>)=>void)=>{
     fs.readFile(`${baseDir}/${dir}/${file}.json`,'utf8',(err,data)=>{
-        callback(err,data)
+        callback(err,parseStringToObject(data))
     })
 }
 
-const update = (dir:string,file:string,data:string,callback:(msg:string|boolean)=>void)=>{
+const update = (dir:string,file:string,data:Record<string, any>,callback:(msg:string|boolean)=>void)=>{
     fs.open(`${baseDir}/${dir}/${file}.json`,'r+',(err,fileDescriptor)=>{
         if(!err && fileDescriptor){
             const stringData = JSON.stringify(data);
 
             fs.ftruncate(fileDescriptor,(err)=>{
                 if(!err){
-                    console.log(fileDescriptor)
                     fs.writeFile(fileDescriptor,stringData,(err)=>{
                         if(!err){
                             fs.close(fileDescriptor,(err)=>{
@@ -70,7 +70,7 @@ const remove = (dir:string,file:string,callback:(err:string|boolean)=>void) =>{
         if(!err){
             callback(false)
         }else{
-            console.log('Error deleting file')
+            console.warn('Error deleting file')
         }
     })
 }

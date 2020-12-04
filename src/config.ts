@@ -2,14 +2,15 @@ const environments = {
     development : {
         httpPort : 3000,
         httpsPort : 3001,
-        envName: 'staging'
+        envName: 'staging',
+        hashingSecret: 'secretKeyForHashingPassword'
     },
     production : {
         httpPort : 5000,
         httpsPort : 5001,
-        envName: 'production'
+        envName: 'production',
+        hashingSecret: 'secretKeyForHashingPassword'
     }
-
 }
 
 const currentEnvironment = typeof(process.env.NODE_ENV) === 'string' ? 

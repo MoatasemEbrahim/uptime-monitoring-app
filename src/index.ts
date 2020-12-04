@@ -2,14 +2,15 @@ import http,{IncomingMessage,ServerResponse} from 'http';
 import https from 'https';
 import fs from 'fs';
 import { StringDecoder } from 'string_decoder'
-import requestHelper from './utils/request';
+import requestHelper from './helpers/request';
 import config from './config';
 import path from 'path';
 import handlers from './handlers/handlers';
-import {reqInfo} from './types'
+import {reqInfo} from './types';
+import {parseStringToObject} from './helpers/string'
 
 const unifiedServer = (req:IncomingMessage,res:ServerResponse) => {
-    const {parsedURL,path,trimmedPath,queryStringObj,method,headers} = requestHelper(req)
+    const {trimmedPath,queryStringObj,method,headers} = requestHelper(req)
 
     const decoder = new StringDecoder('utf-8');
 
@@ -21,7 +22,7 @@ const unifiedServer = (req:IncomingMessage,res:ServerResponse) => {
 
     req.on('end',()=>{
         buffer+= decoder.end();
-
+        
         const chosenHandler :(data:reqInfo,callback:(statusCode:number,payload?:Object) => void) => void = 
         handlers[trimmedPath as handlersTypes] ? handlers[trimmedPath as handlersTypes] : handlers.notFound;
         const reqData = {
@@ -29,7 +30,7 @@ const unifiedServer = (req:IncomingMessage,res:ServerResponse) => {
             queryStringObj,
             method,
             headers,
-            payload:buffer
+            payload:parseStringToObject(buffer)
         }
 
         chosenHandler(reqData,(statusCode:number,payload?:Object)=>{

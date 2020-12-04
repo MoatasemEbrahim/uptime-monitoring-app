@@ -1,10 +1,9 @@
 import {IncomingHttpHeaders} from 'http'
-import {ParsedUrlQuery} from 'querystring';
 
 export type reqInfo = {
     trimmedPath: string | undefined;
-    queryStringObj: ParsedUrlQuery;
+    queryStringObj: Record<string, any>;
     method: string;
     headers: IncomingHttpHeaders;
-    payload: string;
+    payload: Record<string, any>;
 }

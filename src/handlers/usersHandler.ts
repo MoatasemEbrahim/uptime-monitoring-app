@@ -1,4 +1,4 @@
-import usersControllers from '../controllers/users';
+import usersControllers from '../controllers/users/users';
 import {reqInfo} from '../types';
 
 const controller = {
