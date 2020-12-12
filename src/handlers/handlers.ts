@@ -1,8 +1,10 @@
-import usersHandler from './usersHandler';
 import {reqInfo} from '../types';
+import usersHandler from './usersHandler';
+import tokensHandler from './tokensHandler';
 
 const routes = {
-    "users":usersHandler,
+    "users": usersHandler,
+    "tokens": tokensHandler,
     notFound : (data:reqInfo,callBack: (statusCode:number,payload?:Object)=>void)=>{
         callBack(404)
     },

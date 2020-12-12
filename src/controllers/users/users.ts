@@ -1,4 +1,4 @@
-import getUser from './getUsers';
+import getUser from './getUser';
 import addUser from './addUser';
 import editUser from './editUser';
 import deleteUser from './deleteUser';

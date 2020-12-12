@@ -1,5 +1,6 @@
 import usersControllers from '../controllers/users/users';
 import {reqInfo} from '../types';
+import verifyToken from '../controllers/tokens/verifyToken';
 
 const controller = {
     GET : usersControllers.getUser,
@@ -13,7 +14,12 @@ const usersHandler = (data:reqInfo,callback:(statusCode:number,payload?:Object)=
 
     const method = data.method
     if(acceptableMethods.includes(method)){
-        controller[method as keyof typeof controller](data,callback)
+        const handler = controller[method as keyof typeof controller]
+        if(method === 'POST'){
+            handler(data,callback)
+        }else{
+            verifyToken(data,callback,handler)
+        }
     }else{
         callback(405)
     }
