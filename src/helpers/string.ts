@@ -12,4 +12,9 @@ export const isValidString : (str:any)=> boolean = (str)=>{
         return true;
     }
     return false
-} 
+}
+
+export const createRandomString = ()=>{
+    console.log((Math.random().toString(36).substring(2, 12) + Math.random().toString(36).substring(2, 12)).length)
+    return  Math.random().toString(36).substring(2, 12) + Math.random().toString(36).substring(2, 12);
+}
